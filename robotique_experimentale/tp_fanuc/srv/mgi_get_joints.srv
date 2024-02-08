@@ -1,0 +1,6 @@
+# request
+geometry_msgs/Pose pose
+std_msgs/String config
+---
+# response
+sensor_msgs/JointState joints

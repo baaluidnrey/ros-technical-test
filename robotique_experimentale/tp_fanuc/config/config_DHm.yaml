@@ -1,0 +1,11 @@
+fanuc_lrmate:
+  link1: {sigma: 0, a: 0.0, alpha: 0.0, d: 0.330, theta: 0.0}
+  link2: {sigma: 0, a: 0.0, alpha: -90.0, d: 0.0, theta: -90.0}
+  link3: {sigma: 0, a: 0.260, alpha: 0.0, d: 0.0, theta: 0.0}
+  link4: {sigma: 0, a: 0.020, alpha: -90.0, d: 0.290, theta: 0.0}
+  link5: {sigma: 0, a: 0.0, alpha: 90.0, d: 0.0, theta: 0.0}
+  link6: {sigma: 0, a: 0.0, alpha: -90.0, d: 0.070, theta: 0.0}
+
+robot_test:
+  link1: {sigma: 0, a: 0.0, alpha: 0.0, d: 0.0, theta: 0.0}
+  link2: {sigma: 1, a: 0.0, alpha: -90.0, d: 0.5, theta: 0.0}

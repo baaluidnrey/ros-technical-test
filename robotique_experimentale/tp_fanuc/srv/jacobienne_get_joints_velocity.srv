@@ -1,0 +1,6 @@
+# request
+sensor_msgs/JointState  joints_position
+geometry_msgs/Twist     cmd_vel
+---
+# response
+sensor_msgs/JointState joints_velocity

@@ -1,0 +1,7 @@
+# request
+sensor_msgs/JointState joints_state
+std_msgs/Int8 i
+std_msgs/Int8 j
+---
+# response
+geometry_msgs/Pose pose

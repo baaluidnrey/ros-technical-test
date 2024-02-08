@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="mgd" default="true"/>
+  <arg name="mgi" default="true"/>
+  <arg name="jacobienne" default="true"/>
+  <arg name="robot" default="fanuc_lrmate"/>
+  <arg name="gui" default="true"/>
+
+  <!-- chargement du robot -->
+  <include file="$(find tp_fanuc)/launch/load_lrmate200id4s_DHm.launch" />
+  <rosparam command="load" file="$(find tp_fanuc)/config/config_DHm.yaml"/>
+
+  <!-- execution des modeles -->
+  <node name="mgd" pkg="tp_fanuc" type="mgd.py" args="--robot=$(arg robot)" if="$(arg mgd)"/>
+  <node name="mgi" pkg="tp_fanuc" type="mgi.py" if="$(arg mgi)"/>
+  <node name="jacobienne" pkg="tp_fanuc" type="jacobienne.py" args="--robot=$(arg robot)" if="$(arg jacobienne)"/>
+
+  <!-- affichage dans rviz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find tp_fanuc)/rviz/fanuc.rviz" if="$(arg gui)"/>
+
+</launch>

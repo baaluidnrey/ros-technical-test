@@ -1,0 +1,5 @@
+# request
+sensor_msgs/JointState joints_state
+---
+# response
+std_msgs/Bool motion_done
