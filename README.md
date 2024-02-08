@@ -34,13 +34,13 @@ $ git clone https://gitlab.isir.upmc.fr/eurobin/ros-technical-test.git
 
 3. Compiler le conteneur
 ```bash
-$ cd $ROS_TEST_DIR\ros-technical-test
+$ cd $ROS_TEST_DIR/ros-technical-test
 $ docker build --tag tp_fanuc_docker .
 ```
 
 4. Lancer le conteneur
 ```bash
-$ cd $ROS_TEST_DIR\ros-technical-test\docker
+$ cd $ROS_TEST_DIR/ros-technical-test\docker
 $ ./start_docker.zsh
 ```
 
