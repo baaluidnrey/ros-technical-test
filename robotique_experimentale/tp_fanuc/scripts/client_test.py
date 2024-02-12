@@ -1,4 +1,18 @@
 #!/usr/bin/env python3
+
+"""
+TP de modélisation d'un bras manipulateur à 6DDL.
+Utilisé dans le cadre des TPs de robotique expérimentale de la spécialité robotique de Polytech Sorbonne.
+Ce code est une refonte en Python et ROS d'un code sous Matlab précédemment mis en place par Guillaume Morel et Marie-Aude Vitrani.
+
+client_test.py: test des services ROS
+"""
+__author__ = "Aline Baudry"
+__copyright__ = "2021, Polytech Sorbonne"
+__credits__ = ["Aline Baudry", "Guillaume Morel", "Marie-Aude Vitrani"]
+__maintainer__ = "Aline Baudry"
+__email__ = "aline.baudry@sorbonne-universite.fr"
+
 import time
 import numpy as np
 import rospy
