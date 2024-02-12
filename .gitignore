@@ -1,0 +1,6 @@
+# python
+*.pyc
+*.pyo
+
+# docker
+*.zsh_history

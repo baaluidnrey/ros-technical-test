@@ -21,10 +21,12 @@ Ce TP est très long mais puisqu'il contient certains éléments importants pour
 
 ## Utilisation du conteneur Docker
 
-1. Si ce n'est pas fait, installer docker : 
-
-    1. Docker Engine (surtout pas Docker Desktop) : https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
-    2. Puis la configuration : https://docs.docker.com/engine/install/linux-postinstall/
+1. Si ce n'est pas fait, installer docker :
+    
+    - Sur ubuntu :
+        1. Docker Engine (surtout pas Docker Desktop) : https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
+        2. Puis la configuration : https://docs.docker.com/engine/install/linux-postinstall/
+    - Si utilisation de WSL sur Windows, pas testé.
 
 2. Cloner le répertoire
 ```bash
@@ -40,7 +42,7 @@ $ docker build --tag tp_fanuc_docker .
 
 4. Lancer le conteneur
 ```bash
-$ cd $ROS_TEST_DIR/ros-technical-test\docker
+$ cd $ROS_TEST_DIR/ros-technical-test/docker
 $ ./start_docker.zsh
 ```
 
@@ -59,7 +61,7 @@ $ source devel/setup.zsh
 $ roslaunch tp_fanuc tp_DHm.launch
 ```
 
-## Ce qu'il faut coder
+## Contenu du test
 
 1. Coder les méthodes manquantes dans le modèle géométrique direct (`mgd.py`) : `compute_Ti(self,dh,q):`, `compute_T(self,Q,i,j)` et `compute_robot_state(self,Q)`.
 
@@ -76,3 +78,5 @@ $$
 $$
 
 2. Coder le noeud `traj_arti` qui permet de faire une interpolation de trajectoire articulaire entre deux positions et qui publie les consignes sur le topic `/joints_state`.
+
+3. Faire un merge request avec le code + une documentation en markdown pour son utilisation.
