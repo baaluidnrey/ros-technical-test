@@ -72,10 +72,10 @@ La matrice de transformation homogène obtenue à partir des paramètres de Dena
 
 $$
 ^{i-1}T_{i} = 
-\left[ \begin{array}{ccc|c}
+\left[ \begin{array}{cccc}
 \cos\theta_i 	& -\sin\theta_i 	& 0 & a_{i-1} \\
 \cos\alpha_{i-1} \cdot \sin\theta_i & \cos\alpha_{i-1} \cdot \cos\theta_i & -\sin\alpha_{i-1} & -d \cdot \sin\alpha_{i-1} \\
-\sin\alpha_{i-1} \cdot \sin\theta_i & \sin\alpha_{i-1} \cdot \cos\theta_i & \cos\alpha_{i-1} & d \cdot \cos\alpha_{i-1} \\ \hline
+\sin\alpha_{i-1} \cdot \sin\theta_i & \sin\alpha_{i-1} \cdot \cos\theta_i & \cos\alpha_{i-1} & d \cdot \cos\alpha_{i-1} \\
 0 & 0 & 0 & 1
 \end{array}\right]
 $$
