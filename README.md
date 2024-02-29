@@ -26,7 +26,9 @@ Ce TP est très long mais puisqu'il contient certains éléments importants pour
     - Sur ubuntu :
         1. Docker Engine (surtout pas Docker Desktop) : https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
         2. Puis la configuration : https://docs.docker.com/engine/install/linux-postinstall/
-    - Si utilisation de WSL sur Windows, pas testé.
+    - Sur Windows : 
+        1. Installer WSL2
+        2. Installer Docker Desktop : https://docs.docker.com/desktop/install/windows-install/
 
 2. Cloner le répertoire
 ```bash
@@ -43,7 +45,8 @@ $ docker build --tag tp_fanuc_docker .
 4. Lancer le conteneur
 ```bash
 $ cd $ROS_TEST_DIR/ros-technical-test/docker
-$ ./start_docker.zsh
+$ ./start_docker.sh # sur ubuntu
+$ sh start_docker_wsl.sh # sur wsl
 ```
 
 Puis accéder au conteneur depuis d'autres terminaux.
