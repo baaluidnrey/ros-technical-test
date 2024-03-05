@@ -29,7 +29,6 @@ def main():
   # --------------------------------------------------------------------------
   # TARGET
   # --------------------------------------------------------------------------
-  print(JointState())
   print("\nInitial joint coordinates (rotational in [rad], prismatic in [m]):")
   q0 = np.array(list(map(float, input().split())))
   print("q0:")
@@ -65,8 +64,6 @@ def main():
     joint_state.position = q.tolist()  # Convert numpy array to list
 
     pub.publish(joint_state)
-    print(joint_state)
-
     t += dt
     rate.sleep()
 
