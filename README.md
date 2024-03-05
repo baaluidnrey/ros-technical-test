@@ -38,7 +38,6 @@
 3. **Launch the container:**
 
    ```bash
-   cd ros-technical-test/docker
    ./start_docker.zsh  # Ubuntu
    sh start_docker_wsl.sh # WSL
    ```
