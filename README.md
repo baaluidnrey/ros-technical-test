@@ -1,5 +1,3 @@
-## Optimized README for ros-technical-test
-
 **This README provides an overview of the ros-technical-test repository, including required tasks, usage instructions, and code details.**
 
 **Required Tasks:**
