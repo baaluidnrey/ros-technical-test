@@ -1,74 +1,74 @@
 # ros-technical-test
 
-## Objectifs du test technique
+## Objectives of the Technical Test
 
-- programmation Python en orienté objet;
-- utilisation de ROS;
-- utilisation de Docker.
+- Object-oriented Python programming;
+- Use of ROS (Robot Operating System);
+- Use of Docker.
 
-L'archive en question est un TP que font les étudiants de Polytech dans le module de robotique expérimentale. Ce TP est particulier concerne la modélisation d'un manipulateur à 6ddl, avec poignet à axes concourrants. Lors de ce TP, ils font :
+The provided archive is a lab assignment undertaken by students at Polytech as part of the experimental robotics module. This assignment specifically focuses on modeling a 6-DOF (Degrees of Freedom) manipulator with a wrist with concurrent axes. During this lab, students:
 
-1. le paramétrage géométrique du robot avec la convention de Denavit-Hartenberg modifiée (Khalil-Kleinfinger);
-2. implémentation des modèle géométriques directs et inverses et du modèle cinématique;
-3. contrôle du robot avec les outils de ROS;
-4. génération de trajectoire et interfaçage avec ROS.
+1. Perform geometric parameterization of the robot using the modified Denavit-Hartenberg convention (Khalil-Kleinfinger);
+2. Implement direct and inverse geometric models as well as the kinematic model;
+3. Control the robot using ROS tools;
+4. Generate trajectory and interface with ROS.
 
-Ce TP est très long mais puisqu'il contient certains éléments importants pour le poste (Docker, ROS, Python), on peut le prendre comme base de test technique. On s'intéressera uniquement à :
+While this lab assignment is extensive, it contains crucial elements for the position (Docker, ROS, Python), making it suitable as a technical test basis. We will only focus on:
 
-1. implémentation du modèle géométrique direct;
-2. interfaçage avec ROS;
-3. utilisation de Docker.
+1. Implementation of the direct geometric model;
+2. ROS interfacing;
+3. Docker usage.
 
-## Utilisation du conteneur Docker
+## Using the Docker Container
 
-1. Si ce n'est pas fait, installer docker :
-    
-    - Sur ubuntu :
-        1. Docker Engine (surtout pas Docker Desktop) : https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
-        2. Puis la configuration : https://docs.docker.com/engine/install/linux-postinstall/
-    - Sur Windows : 
-        1. Installer WSL2
-        2. Installer Docker Desktop : https://docs.docker.com/desktop/install/windows-install/
+1. If not already done, install Docker:
+   
+   - On Ubuntu:
+     1. Docker Engine (avoid Docker Desktop): [Installation Guide](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
+     2. Follow post-installation configuration: [Post-installation Guide](https://docs.docker.com/engine/install/linux-postinstall/)
+   - On Windows:
+     1. Install WSL2
+     2. Install Docker Desktop: [Windows Installation Guide](https://docs.docker.com/desktop/install/windows-install/)
 
-2. Cloner le répertoire
+2. Clone the repository:
 ```bash
 $ cd $ROS_TEST_DIR
 $ git clone https://gitlab.isir.upmc.fr/eurobin/ros-technical-test.git
 ```
 
-3. Compiler le conteneur
+3. Build the container:
 ```bash
 $ cd $ROS_TEST_DIR/ros-technical-test
 $ docker build --tag tp_fanuc_docker .
 ```
 
-4. Lancer le conteneur
+4. Launch the container:
 ```bash
 $ cd $ROS_TEST_DIR/ros-technical-test/docker
-$ ./start_docker.sh # sur ubuntu
-$ sh start_docker_wsl.sh # sur wsl
+$ ./start_docker.sh # on Ubuntu
+$ sh start_docker_wsl.sh # on WSL
 ```
 
-Puis accéder au conteneur depuis d'autres terminaux.
+Then access the container from other terminals:
 ```bash
 $ docker exec -it tp_fanuc zsh
 ```
 
-5. Une fois dans le docker, utilisation du TP. On arrive directement dans `catkin_ws` :
+5. Once inside the docker, use the lab assignment. You'll directly land in `catkin_ws`:
 
-On compile, on source, et le reste est dans le sujet de TP. Mais on peut déjà tester le `launchfile` général.
+Compile, source, and other instructions are in the lab assignment. However, you can already test the general launch file.
 ```bash
-$ catkin_make    # compiler
-$ chmod +x src/robotique_experimentale/tp_fanuc/scripts/* # rendre les scripts exécutables
+$ catkin_make    # compile
+$ chmod +x src/robotique_experimentale/tp_fanuc/scripts/* # make scripts executable
 $ source devel/setup.zsh
 $ roslaunch tp_fanuc tp_DHm.launch
 ```
 
-## Contenu du test
+## Test Contents
 
-1. Coder les méthodes manquantes dans le modèle géométrique direct (`mgd.py`) : `compute_Ti(self,dh,q):`, `compute_T(self,Q,i,j)` et `compute_robot_state(self,Q)`.
+1. Code the missing methods in the direct geometric model (`mgd.py`): `compute_Ti(self,dh,q):`, `compute_T(self,Q,i,j)` and `compute_robot_state(self,Q)`.
 
-La matrice de transformation homogène obtenue à partir des paramètres de Denavit-Hartenberg est la suivante :
+The homogeneous transformation matrix obtained from the Denavit-Hartenberg parameters is as follows:
 
 $$
 ^{i-1}T_{i} = 
@@ -80,6 +80,6 @@ $$
 \end{array}\right]
 $$
 
-2. Coder le noeud `traj_arti` qui permet de faire une interpolation de trajectoire articulaire entre deux positions et qui publie les consignes sur le topic `/joints_state`.
+2. Code the node `traj_arti` which allows for interpolation of articulatory trajectory between two positions and publishes commands on the `/joints_state` topic.
 
-3. Faire un merge request avec le code + une documentation en markdown pour son utilisation.
+3. Create a merge request with the code + markdown documentation for its usage.
