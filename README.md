@@ -1,85 +1,86 @@
-# ros-technical-test
+## Optimized README for ros-technical-test
 
-## Objectives of the Technical Test
+**This README provides an overview of the ros-technical-test repository, including required tasks, usage instructions, and code details.**
 
-- Object-oriented Python programming;
-- Use of ROS (Robot Operating System);
-- Use of Docker.
+**Required Tasks:**
 
-The provided archive is a lab assignment undertaken by students at Polytech as part of the experimental robotics module. This assignment specifically focuses on modeling a 6-DOF (Degrees of Freedom) manipulator with a wrist with concurrent axes. During this lab, students:
+* **Direct geometric model (mgd.py):** Implement the missing methods `compute_Ti(self, dh, q)`, `compute_T(self, Q, i, j)`, and `compute_robot_state(self, Q)`. These methods are used for calculating homogeneous transformation matrices based on Denavit-Hartenberg parameters and joint angles.
+* **Trajectory node (traj_arti.py):** Develop the `traj_arti` node responsible for:
+    * Interpolating joint trajectories between two provided positions.
+    * Publishing joint commands on the `/joints_state` topic for robot control.
+* **Merge request creation:** Submit a merge request containing both the implemented code and markdown documentation explaining its usage.
 
-1. Perform geometric parameterization of the robot using the modified Denavit-Hartenberg convention (Khalil-Kleinfinger);
-2. Implement direct and inverse geometric models as well as the kinematic model;
-3. Control the robot using ROS tools;
-4. Generate trajectory and interface with ROS.
+**Using the Docker Container:**
 
-While this lab assignment is extensive, it contains crucial elements for the position (Docker, ROS, Python), making it suitable as a technical test basis. We will only focus on:
+**Prerequisites:**
 
-1. Implementation of the direct geometric model;
-2. ROS interfacing;
-3. Docker usage.
+* **Docker:** Ensure you have Docker installed. 
+    * **Ubuntu:**
+        * Follow the installation guide: [https://docs.docker.com/engine/install/ubuntu/](https://docs.docker.com/engine/install/ubuntu/)
+        * Configure post-installation: [https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
+    * **Windows:**
+        * Install WSL2.
+        * Install Docker Desktop: [https://docs.docker.com/desktop/install/windows-install/](https://docs.docker.com/desktop/install/windows-install/)
 
-## Using the Docker Container
+**Steps:**
 
-1. If not already done, install Docker:
-   
-   - On Ubuntu:
-     1. Docker Engine (avoid Docker Desktop): [Installation Guide](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
-     2. Follow post-installation configuration: [Post-installation Guide](https://docs.docker.com/engine/install/linux-postinstall/)
-   - On Windows:
-     1. Install WSL2
-     2. Install Docker Desktop: [Windows Installation Guide](https://docs.docker.com/desktop/install/windows-install/)
+1. **Clone the repository:**
 
-2. Clone the repository:
-```bash
-$ cd $ROS_TEST_DIR
-$ git clone https://gitlab.isir.upmc.fr/eurobin/ros-technical-test.git
+   ```bash
+   git clone https://github.com/muttequrashi/ros-technical-test.git
+   ```
+
+2. **Build the container:**
+
+   ```bash
+   cd ros-technical-test
+   docker build --tag tp_fanuc_docker .
+   ```
+
+3. **Launch the container:**
+
+   ```bash
+   cd ros-technical-test/docker
+   ./start_docker.zsh  # Ubuntu
+   sh start_docker_wsl.sh # WSL
+   ```
+
+4. **Access the container (optional):**
+
+   ```bash
+   docker exec -it tp_fanuc zsh
+   ```
+
+5. **Compile and source the workspace (inside the container):**
+
+   ```bash
+   catkin_make    # compile
+   chmod +x src/robotique_experimentale/tp_fanuc/scripts/* # make scripts executable
+   source devel/setup.zsh
+   ```
+
+6. **Run the launch file:**
+
+   ```bash
+   roslaunch tp_fanuc tp_DHm.launch
+   ```
+
+7. **Run the trajectory script:**
+
+   In another terminal, access the container and execute the following:
+
+   ```bash
+   docker exec -it tp_fanuc zsh
+   source devel/setup.zsh
+   rosrun tp_fanuc traj_arti.py
+   ```
+
+   The script will prompt you for initial and target joint positions (6 values in radians), and duration (seconds).
+
+**Example Input:**
+
 ```
-
-3. Build the container:
-```bash
-$ cd $ROS_TEST_DIR/ros-technical-test
-$ docker build --tag tp_fanuc_docker .
+Initial: -0.785 0.785 0. 0. 0.785 -0.785
+Target: 0.785 0.785 0. 0. 0.785 0.785
+Duration: 120
 ```
-
-4. Launch the container:
-```bash
-$ cd $ROS_TEST_DIR/ros-technical-test/docker
-$ ./start_docker.sh # on Ubuntu
-$ sh start_docker_wsl.sh # on WSL
-```
-
-Then access the container from other terminals:
-```bash
-$ docker exec -it tp_fanuc zsh
-```
-
-5. Once inside the docker, use the lab assignment. You'll directly land in `catkin_ws`:
-
-Compile, source, and other instructions are in the lab assignment. However, you can already test the general launch file.
-```bash
-$ catkin_make    # compile
-$ chmod +x src/robotique_experimentale/tp_fanuc/scripts/* # make scripts executable
-$ source devel/setup.zsh
-$ roslaunch tp_fanuc tp_DHm.launch
-```
-
-## Test Contents
-
-1. Code the missing methods in the direct geometric model (`mgd.py`): `compute_Ti(self,dh,q):`, `compute_T(self,Q,i,j)` and `compute_robot_state(self,Q)`.
-
-The homogeneous transformation matrix obtained from the Denavit-Hartenberg parameters is as follows:
-
-$$
-^{i-1}T_{i} = 
-\left[ \begin{array}{cccc}
-\cos\theta_i 	& -\sin\theta_i 	& 0 & a_{i-1} \\
-\cos\alpha_{i-1} \cdot \sin\theta_i & \cos\alpha_{i-1} \cdot \cos\theta_i & -\sin\alpha_{i-1} & -d \cdot \sin\alpha_{i-1} \\
-\sin\alpha_{i-1} \cdot \sin\theta_i & \sin\alpha_{i-1} \cdot \cos\theta_i & \cos\alpha_{i-1} & d \cdot \cos\alpha_{i-1} \\
-0 & 0 & 0 & 1
-\end{array}\right]
-$$
-
-2. Code the node `traj_arti` which allows for interpolation of articulatory trajectory between two positions and publishes commands on the `/joints_state` topic.
-
-3. Create a merge request with the code + markdown documentation for its usage.
