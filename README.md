@@ -80,5 +80,12 @@
 ```
 Initial: -0.785 0.785 0. 0. 0.785 -0.785
 Target: 0.785 0.785 0. 0. 0.785 0.785
-Duration: 120
+Duration: 60
 ```
+Example input is highlighted in the picture below:
+
+![alt text](images/input.png)
+
+**Results of Sample Trajectory:**
+
+![alt text](images/result.gif)
