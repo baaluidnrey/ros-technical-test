@@ -94,95 +94,92 @@ class MGD(object):
     #   Modele geometrique direct
     #   -----------------------------------------------------------------------
 
-    #   T = compute_Ti(self,dh,q)
-    #
-    #   Description :
-    #       Calcule la matrice de transformation rigide d'un corps par rapport a un autre.
-    #
-    #   Entrees :
-    #       - q : coordonnee articulaire [rad ou m]
-    #
-    #       - dh : parametres geometriques entre les deux corps suivant la convention de Denavit-Hartenberg modifiee
-    #           [sigma, a, alpha, d, theta]
-    #           type : array de dimension (5,) (np.shape() pour le verifier)
-    #
-    #   Sortie :
-    #       - T : matrice de transformation rigide
-    #           type : array de dimension (4, 4) (np.shape() pour le verifier)
-
-
     def compute_Ti(self,dh,q):
+        """
+        Calculates the homogeneous transformation matrix for a single joint.
 
-        T = np.identity(4)
+        Args:
+            dh_parameters (list): List containing DH parameters (sigma, a, alpha, d, theta) for the joint.
+            joint_angle (float): Joint angle in radians.
 
+        Returns:
+            numpy.ndarray: Homogeneous transformation matrix (4x4).
+        """
+        T=np.identity(4)
+
+        sigma, a, alpha, d, theta =dh[:5]
+        theta = dh[4] + (q if sigma == 0 else 0)
+    
+        cos_theta = np.cos(theta)
+        sin_theta = np.sin(theta)
+        cos_alpha = np.cos(alpha)
+        sin_alpha = np.sin(alpha)
+        
+        T[:3, 0] = [cos_theta, cos(alpha) * sin_theta, sin(alpha) * sin_theta]
+        T[:3, 1] = [-sin_theta, cos(alpha) * cos_theta, sin(alpha) * cos_theta]
+        T[:3, 2] = [0, -sin(alpha), cos(alpha)]
+        T[:3, 3] = [a, -d * sin_alpha, d * cos_alpha]
+        
         return T
 
-
-    #   T = compute_T(self,Q,i,j)
-    #
-    #   Description :
-    #       Calcule la matrice de transformation rigide entre le corps i et le corps j.
-    #
-    #   Entrees :
-    #       - Q : vecteur des coordonnees articulaires des articulations entre le corps i et le corps j [rad ou m]
-    #           type : array de dimension (j-i,) (np.shape() pour le verifier)
-    #
-    #   Sortie :
-    #       - T : matrice de transformation rigide
-    #           type : array de dimension (4, 4) (np.shape() pour le verifier)
-
+ 
     def compute_T(self,Q,i,j):
+        """
+        Calculates the cumulative transformation matrix from one frame to another.
+
+        Args:
+            joint_angles (list): List of joint angles (in radians) for the specified range.
+            start_index (int): Index of the starting joint (inclusive).
+            end_index (int): Index of the ending joint (exclusive).
+
+        Returns:
+            numpy.ndarray: Cumulative homogeneous transformation matrix (4x4).
+        """
 
         if len(Q) != (j-i):
             print("Le vecteurs des coordonnees articulaires ne correspond pas au nombre d'axes")
             return
-
         else:
-            T = np.identity(4)
+            T = np.identity(4) #matrice identité initialisée
             for axis in range(i,j):
-                T = T   # a calculer
-
+                T = np.matmul(T,self.compute_Ti(self._DH[axis,:],Q[axis])) # a calculer
             return T
-
-
-    #   T = compute_robot_state(self,Q)
-    #
-    #   Description :
-    #       Calcule l'etat du robot :
-    #           - matrice de transformation rigide entre le corps 0 et le corps terminal
-    #           - liste des transformations entre les corps i-1 et i
-    #           - liste des trasformations entre la base et le corps i
-    #
-    #   Entrees :
-    #       - Q : vecteur des coordonnees articulaires [rad ou m]
-    #           type : array de dimension (self._nb_axis,) (np.shape() pour le verifier)
-    #
-    #   Sortie :
-    #       - T : matrice de transformation rigide de la base au corps terminal
-    #           type : array de dimension (4, 4) (np.shape() pour le verifier)
-    #
-    #       - liste_Ti : liste des matrices de transformation rigide entre les corps i et i+1
-    #           type : liste de self._nb_axis arrays de dimension (4, 4)
-    #
-    #       - liste_T0i : liste des matrices de transformation rigide entre la base et le corps i
-    #           type : liste de self._nb_axis arrays de dimension (4, 4)
+    
 
     def compute_robot_state(self,Q):
+        """
+        Calculates the robot's state, including end effector transformation,
+        individual joint transformations, and base-to-joint transformations.
+
+        Args:
+            joint_angles (list): List of joint angles (in radians) for all joints.
+
+        Returns:
+            tuple:
+                - T0i (numpy.ndarray): End effector transformation matrix (4x4).
+                - liste_Ti (list): List of individual joint transformation matrices (4x4).
+                - liste_T0i (list): List of base-to-joint transformation matrices (4x4).
+        """
 
         liste_Ti = self._nb_axis*[np.identity(4)]
         liste_T0i  = self._nb_axis*[np.identity(4)]
         T0i = np.identity(4)
+        
+       
 
         for axis in range(0,self._nb_axis):
-
             Ti = np.identity(4)     # a calculer
-            T0i = T0i               # a calculer
+           
+            Ti = self.compute_Ti(self._DH[axis, :], Q[axis])
+            T0i = self.compute_T(Q[0:axis], 0, axis) 
 
             liste_Ti[axis] = Ti
             liste_T0i[axis] = T0i
 
 
         return T0i, liste_Ti, liste_T0i
+
+
 
 
 
