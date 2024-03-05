@@ -15,7 +15,7 @@
 * **Docker:** Ensure you have Docker installed. 
     * **Ubuntu:**
         * Follow the installation guide: [https://docs.docker.com/engine/install/ubuntu/](https://docs.docker.com/engine/install/ubuntu/)
-        * Configure post-installation: [https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
+        * Configure post-installation: [ https://docs.docker.com/engine/install/linux-postinstall/](https://docs.docker.com/engine/install/linux-postinstall/)
     * **Windows:**
         * Install WSL2.
         * Install Docker Desktop: [https://docs.docker.com/desktop/install/windows-install/](https://docs.docker.com/desktop/install/windows-install/)
@@ -31,7 +31,7 @@
 2. **Build the container:**
 
    ```bash
-   cd ros-technical-test
+   cd ros-technical-test/docker
    docker build --tag tp_fanuc_docker .
    ```
 
